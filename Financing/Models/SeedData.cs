@@ -22,9 +22,9 @@ namespace Financing.Models
                      new Transaction
                      {
                          Type = "in",
-                         Title = "Salary",
-                         Price = 250000,
-                         TargetMonth = DateTime.Parse("1989-1-11"),
+                         Title = "預金",
+                         Price = 150306,
+                         TargetMonth = DateTime.Parse("2018-11-1"),
                          CreateDate = DateTime.Now,
                          Status = "done",
 
@@ -33,12 +33,53 @@ namespace Financing.Models
                      new Transaction
                      {
                          Type = "out",
-                         Title = "Credit",
-                         Price = 250000,
-                         TargetMonth = DateTime.Parse("1989-1-11"),
+                         Title = "積立",
+                         Price = 30000,
+                         TargetMonth = DateTime.Parse("2018-11-1"),
+                         CreateDate = DateTime.Now,
+                         Status = "done",
+                     },
+
+                     new Transaction
+                     {
+                         Type = "out",
+                         Title = "返済",
+                         Price = 30000,
+                         TargetMonth = DateTime.Parse("2018-11-1"),
+                         CreateDate = DateTime.Now,
+                         Status = "done",
+                     },
+
+                     new Transaction
+                     {
+                         Type = "out",
+                         Title = "2018年分自動車保険",
+                         Price = 45000,
+                         TargetMonth = DateTime.Parse("2018-11-1"),
+                         CreateDate = DateTime.Now,
+                         Status = "done",
+                     },
+
+                     new Transaction
+                     {
+                         Type = "out",
+                         Title = "引落Amex",
+                         Price = 100000,
+                         TargetMonth = DateTime.Parse("2018-11-1"),
+                         CreateDate = DateTime.Now,
+                         Status = "done",
+                     },
+
+                     new Transaction
+                     {
+                         Type = "out",
+                         Title = "引落VISA",
+                         Price = 40000,
+                         TargetMonth = DateTime.Parse("2018-11-1"),
                          CreateDate = DateTime.Now,
                          Status = "done",
                      }
+
                );
                 context.SaveChanges();
             }

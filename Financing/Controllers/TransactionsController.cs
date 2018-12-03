@@ -19,9 +19,32 @@ namespace Financing.Controllers
         }
 
         // GET: Transactions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.Transaction.ToListAsync());
+            int target_year = int.Parse(DateTime.Now.Year.ToString());
+            int target_month = int.Parse(DateTime.Now.Month.ToString());
+
+            if(id != null)
+            {
+                if ((id >= 201601)&&(id <= 999912))
+                {
+                    var id_year = id.ToString().Substring(0, 4);
+                    var id_month = id.ToString().Substring(4, 2);
+
+                    target_year = int.Parse(id_year);
+                    target_month = int.Parse(id_month);
+                }
+                else
+                {
+                    target_year = int.Parse(DateTime.Now.Year.ToString());
+                    target_month = int.Parse(DateTime.Now.Month.ToString());
+                }
+            }
+
+            var target_transactoions = _context.Transaction.Where(y => y.TargetMonth.Year == target_year).Where(m => m.TargetMonth.Month == target_month);
+            ViewData["this_year"] = target_year;
+            ViewData["this_month"] = target_month;
+            return View(await target_transactoions.ToListAsync());
         }
 
         // GET: Transactions/Details/5
