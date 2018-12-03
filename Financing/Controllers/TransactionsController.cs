@@ -42,8 +42,67 @@ namespace Financing.Controllers
             }
 
             var target_transactoions = _context.Transaction.Where(y => y.TargetMonth.Year == target_year).Where(m => m.TargetMonth.Month == target_month);
+            var in_sum = 0;
+            var out_sum = 0;
+            foreach(var sum in target_transactoions.Where(s => s.Type == "in"))
+            {
+                in_sum += sum.Price;
+            }
+            foreach (var sum in target_transactoions.Where(s => s.Type == "out"))
+            {
+                out_sum += sum.Price;
+            }
+            var total_sum = in_sum - out_sum;
+            var next_month = 0;
+            var next_year = 0;
+            var previous_month = 0;
+            var previous_year = 0;
+
+            if (target_month == 12)
+            {
+                next_year = target_year + 1;
+                next_month = 1;
+            }
+            else
+            {
+                next_year = target_year;
+                next_month = target_month + 1;
+            }
+
+            if (target_month == 1)
+            {
+                previous_year = target_year - 1;
+                previous_month = 12;
+            }
+            else
+            {
+                previous_year = target_year;
+                previous_month = target_month - 1;
+            }
+
+            if (next_month <= 9)
+            {
+                ViewData["target_next"] = next_year.ToString() + "0" + next_month.ToString();
+            }
+            else
+            {
+                ViewData["target_next"] = next_year.ToString() + next_month.ToString();
+            }
+
+            if (previous_month <= 9)
+            {
+                ViewData["target_previous"] = previous_year.ToString() + "0" + previous_month.ToString();
+            }
+            else
+            {
+                ViewData["target_previous"] = previous_year.ToString() + previous_month.ToString();
+            }
             ViewData["this_year"] = target_year;
             ViewData["this_month"] = target_month;
+            ViewData["in_sum"] = in_sum;
+            ViewData["out_sum"] = out_sum;
+            ViewData["total_sum"] = total_sum;
+
             return View(await target_transactoions.ToListAsync());
         }
 

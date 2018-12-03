@@ -4,11 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h3>@(ViewData["this_year"])年@(ViewData["this_month"])月の会計</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+<a asp-action="Index" asp-route-id=@ViewData["target_next"]>次月へ</a>
+<br />
+<a asp-action="Index" asp-route-id=@ViewData["target_previous"]>前月へ</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -16,7 +18,7 @@
                 収入
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @ViewData["in_sum"]
             </th>
         </tr>
     </thead>
@@ -42,12 +44,12 @@
                 支出
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @ViewData["out_sum"]
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Where(s => s.Type== "out"))
+        @foreach (var item in Model.Where(s => s.Type == "out"))
         {
             <tr>
                 <td>
@@ -60,4 +62,21 @@
         }
     </tbody>
 </table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width=50%>
+                収支
+            </th>
+            <th>
+                @ViewData["total_sum"]
+            </th>
+        </tr>
+    </thead>
+</table>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 
