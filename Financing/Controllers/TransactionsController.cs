@@ -130,6 +130,18 @@ namespace Financing.Controllers
             return View();
         }
 
+        // GET: Transactions/Create
+        public IActionResult CreateIn()
+        {
+            return View();
+        }
+
+        // GET: Transactions/Create
+        public IActionResult CreateOut()
+        {
+            return View();
+        }
+
         // POST: Transactions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -137,6 +149,48 @@ namespace Financing.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Type,Title,Price,TargetMonth,CreateDate,Status")] Transaction transaction)
         {
+            if (ModelState.IsValid)
+            {
+                _context.Add(transaction);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(transaction);
+        }
+
+        // POST: Transactions/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateIn([Bind("ID,Type,Title,Price,TargetMonth,CreateDate,Status")] Transaction transaction, string TargetMonth)
+        {
+            transaction.TargetMonth = DateTime.Parse(TargetMonth);
+            transaction.Type = "in";
+            transaction.CreateDate = DateTime.Now;
+            transaction.Status = "done";
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(transaction);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(transaction);
+        }
+
+        // POST: Transactions/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateOut([Bind("ID,Type,Title,Price,TargetMonth,CreateDate,Status")] Transaction transaction, string TargetMonth)
+        {
+            transaction.TargetMonth = DateTime.Parse(TargetMonth);
+            transaction.Type = "out";
+            transaction.CreateDate = DateTime.Now;
+            transaction.Status = "done";
+
             if (ModelState.IsValid)
             {
                 _context.Add(transaction);

@@ -1,0 +1,59 @@
+﻿@model Financing.Models.Transaction
+@{
+    ViewData["Title"] = "Create";
+}
+<h3>支出の追加</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateOut">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TargetMonth" class="control-label"></label>
+                <br />
+                <select name="TargetMonth" id="target_month" class="form-control"></select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="登録" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>var optionYMCreate, this_day, this_month, this_year, today,this_ym;
+      today = new Date();
+      this_year = today.getFullYear();
+      this_month = today.getMonth() + 1;
+      this_ym = this_year +'/'+this_month; //今月
+
+      //年月ｵﾌﾟｼｮﾝを作る
+      optionYMCreate = function(ystart,yend, id) { //年の範囲と対象のコントロールIDを受け取る
+        var i, opt,m_i,ym,selected_option ;
+        opt = null;
+        for (i = yend + 1; i >= ystart ; i--) { //年のループ
+          for(m_i=12;m_i>=1;m_i--){ //月のループ
+              ym = i +'/'+ m_i; //ループ内の年月
+              selected_option = '';
+              if (ym === this_ym) { //今年月と一致してたら選択済みとする
+                selected_option = 'selected';
+              }
+               opt += '<option value="' + ym + '" '+selected_option+'>' + ym + '</option>';
+          }
+        }
+        return document.getElementById(id).innerHTML = opt;
+      };
+
+      optionYMCreate(2018, this_year, 'target_month');</script>
+}
